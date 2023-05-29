@@ -180,6 +180,26 @@ gfournier:
 
 --
 
+```mermaid
+sequenceDiagram
+
+participant D as DockerD
+participant S as Sentry
+participant L as Service λ
+
+note over D: Did Not Start
+D --> S: Did Not Start
+L --> S: Waiting...
+
+Note over D: Tweak Config
+D -->> D: Starts
+D -->> S: Start
+S -->> L: Response
+Note over L: Start
+```
+
+--
+
 ### Root Cause
 
 ```diff
@@ -198,6 +218,12 @@ gfournier:
 | Services      |      ✅     |   ✅   |
 | Sentry        |      🔌     |   🔌   |
 | Docker Daemon |      ✅     |   🔌   |
+
+---
+
+# Demo
+
+### Impersonation
 
 ---
 
@@ -267,9 +293,9 @@ source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
 
 ---
 
-# Commit Signing
+### Commit Signing
 
-## Install GnuPG
+#### Install GnuPG
 
 Windows: https://www.gpg4win.org/download.html
 
