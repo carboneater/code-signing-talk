@@ -255,6 +255,14 @@ https://www.lr-origine.com/qui-sommes-nous/
 
 --
 
+# Non-Répudiation
+
+![Signature Justin](imgs/Signature_Justin_Trudeau.svg)
+
+source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
+
+--
+
 ```mermaid
 flowchart LR
 
@@ -285,15 +293,15 @@ createHmac('sha256', 'Super Secret Key')
 
 ---
 
-# Non-Répudiation
+### Commit Signing
 
-![Signature Justin](imgs/535px-Signature_Justin_Trudeau.svg.png)
+- GPG
+- SSH
+- X.509
 
-source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
+Plus d'info: https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
 
 ---
-
-### Commit Signing
 
 #### Install GnuPG
 
@@ -332,6 +340,12 @@ uid                 [ultimate] Test Key <test@test.test>
 ...
 -----END PGP PUBLIC KEY BLOCK-----
 ```
+
+--
+
+### Upload au service git
+
+
 
 --
 
