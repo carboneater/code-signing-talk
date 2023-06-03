@@ -8,39 +8,52 @@ theme: night
 
 ---
 
+> "Dance like nobody is watching.  
+> Encrypt like everyone is."  
+> 
+> Neil R. Wiler (@grifter801)  
+> Bart Stump (@theStump3r)  
+> Black Hat 2015
+
+---
+
 # ToC
 
 - $ whoami
 - Desjardins
 - Avertissements
 - Supply-Chain Attacks
-- Intégrité
-- Authenticité
+    - Intégrité
+- Code-based Supply Chain Attacks
+    - Authenticité
+    - Non-Repudiation
 
 ---
 
+<!-- .slide: data-background="imgs/color-wheel-768x676.png" -->
 # $ whoami
 
---
+---
 
-# Desjardins
+<!--![Desjardins](imgs/desjardins.svg)-->
 
-![Desjardins](imgs/desjardins.svg)
-
-Corporate?
-Local?
+![Ristourne](imgs/ristourne.jpg)
 
 ---
 
 ### Avertissement
-> Les opinions exprimées dans la présente présentation sont celles de l'auteur.  
-> Elles ne prétendent pas refléter les opinions ni n'engagnent d'aucune façon Desjardins
+- Les opinions exprimées dans la présente présentation sont celles de l'auteur.  
+- Elles ne prétendent pas refléter les opinions ni n'engagnent d'aucune façon le mouvement Desjardins ou ses filiales
+
+--
 
 ![ubuntu](https://turnoff.us/image/en/super-power-extra.png)
 
 --
 
 ### Sécurité: YMMW
+
+--
 
 ![Ubuntu](https://turnoff.us/image/en/security-expert.png)
 
@@ -50,7 +63,7 @@ Local?
 
 ![Fromage Suisse](imgs/Swiss_cheese_model.svg)
 
-Par BenAveling - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=91881875
+Par BenAveling - Oeuvre Propre, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=91881875
 
 ---
 
@@ -219,6 +232,12 @@ Note over L: Start
 | Sentry        |      🔌     |   🔌   |
 | Docker Daemon |      ✅     |   🔌   |
 
+--
+
+<!-- .slide: data-visibility="hidden" -->
+[Neta Downtime](imgs/Neta_158_en.png)
+source: https://neta.mk/archive
+
 ---
 
 # Demo
@@ -255,14 +274,6 @@ https://www.lr-origine.com/qui-sommes-nous/
 
 --
 
-# Non-Répudiation
-
-![Signature Justin](imgs/Signature_Justin_Trudeau.svg)
-
-source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
-
---
-
 ```mermaid
 flowchart LR
 
@@ -290,6 +301,14 @@ createHmac('sha256', 'Super Secret Key')
     .toString('base64')
 // 'f+Woz3ZWtok1VZqH3EjX0nPgWbBRYYyzz39zUJR8Zoc='
 ```
+
+---
+
+# Non-Répudiation
+
+![Signature Justin](imgs/Signature_Justin_Trudeau.svg)
+
+source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
 
 ---
 
@@ -343,9 +362,7 @@ uid                 [ultimate] Test Key <test@test.test>
 
 --
 
-### Upload au service git
-
-
+### [Upload au service git](https://github.com/settings/keys)
 
 --
 
@@ -383,4 +400,87 @@ apt install gpg
 
 # Push signing
 
+Merci [MrIcon](https://people.kernel.org/monsieuricon/signed-git-pushes)
+
+--
+
+> Signing every commit is stupid.
+> Only sign golden commits
+>
+> Linus Torvals ~2010 (reconstructed)
+
+--
+
+# [SHA1ttered](shattered.io)
+
+--
+
+```mermaid
+gitGraph
+    commit
+    branch error
+    commit id:"Error: Do Not Push To Prod"
+    commit id:"Error Handling"
+    checkout main
+    merge error
+    commit tag: "v1.0.1"
+```
+
+--
+
+### Push Signing: Activer Client-Side
+
+```
+git config --global push.signing if-asked
+```
+
+--
+
+### Push Signing: Activer Server-Side
+
+#### git >= 2.2.0
+`/etc/gitconfig`
+```
+[receive]
+    advertisePushOptions = true
+    certNonceSeed = "<uniquerandomstring>"
+```
+
+--
+
+### Push Signing: Activer Server-Side
+
+- *Gitea*: [Unofficial](https://github.com/go-gitea/gitea/issues/13454)
+- *GitLab*: Feature Flag
+- *GitHub*: [Requested](https://github.com/orgs/community/discussions/23515)
+
 ---
+
+> "Dance like nobody is watching.  
+> Encrypt like everyone is."  
+> 
+> Neil R. Wiler (@grifter801)  
+> Bart Stump (@theStump3r)  
+> Black Hat 2015
+
+---
+
+# Sources
+
+Sauf expressément noté, la majorité des cartoons utilisés proviennent de:
+- turnoff.us
+- neta.mk/archive
+
+---
+
+# Questions?
+
+# Commentaires?
+
+# Insultes?
+
+---
+
+<!-- .slide:data-background="imgs/bonfire.gif" -->
+## Bonne St-Jean! {class="r-fit-text"}
+
