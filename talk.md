@@ -333,7 +333,7 @@ Linux: `$ sudo apt install gpg gpg-agent`
 
 --
 
-##$ Generate new GPG key
+### Generate new GPG key
 
 > $ gpg --full-generate-key
 
@@ -438,7 +438,7 @@ git config --global push.signing if-asked
 
 ### Push Signing: Activer Server-Side
 
-#### git >= 2.2.0
+### git >= 2.2.0
 `/etc/gitconfig`
 ```
 [receive]
