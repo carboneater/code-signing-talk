@@ -53,9 +53,7 @@ theme: night
 
 ### Sécurité: YMMW
 
---
-
-![Ubuntu](https://turnoff.us/image/en/security-expert.png)
+![Shutdown](https://turnoff.us/image/en/security-expert.png)
 
 --
 
@@ -135,10 +133,15 @@ createHash('sha256')
 ### Confiance?
 
 Le hachage permet de garantir:
-- L'intégrité d'une information en transport
 - L'exactitude d'une copie
+- L'intégrité d'une information en transport
+- L'exactitude d'un installateur
 
-Aucune garantie à l'origine:
+--
+
+### Confiance?
+
+Aucune garantie **à l'origine**:
 - Intégrité de la source d'information
     - ex: Attaque sur le registre
 - Validité de la source d'information
@@ -453,6 +456,19 @@ git config --global push.signing if-asked
 - *Gitea*: [Unofficial](https://github.com/go-gitea/gitea/issues/13454)
 - *GitLab*: Feature Flag
 - *GitHub*: [Requested](https://github.com/orgs/community/discussions/23515)
+
+---
+
+```mermaid
+flowchart LR
+
+C([Code]) --> B[Build Artifacts] -->|Push| R[Registry] -->|Pull| P([Prod]) & T[Tests]
+T -.->|Pass| P
+E([External Libraries]) -->|Pull| B & T
+
+style C color:#4C4,stroke:#4C4
+style E color:#CC4,stroke:#CC4
+```
 
 ---
 
