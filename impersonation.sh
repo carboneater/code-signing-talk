@@ -1,15 +1,13 @@
-sudo docker run -it --rm -v $(pwd):$(pwd) -w $(pwd) alpine sh
+#! /bin/sh
+#sudo docker run -e EMAIL="<Email>" -e NAME="<Name>" --entrypoint $(pwd)/impersonation.sh -it --rm -v $(pwd):$(pwd) -w $(pwd) alpine
 
-apk add git gpg gpg-agent
+apk add git
 
-### Impersonation
+git config --global user.name $NAME
+git config --global user.email $EMAIL
+git config --global --add safe.directory $(pwd)
 git checkout -b eicar
 wget -O eicar.txt https://secure.eicar.org/eicar.com.txt
 git add eicar.txt
-git commit \
-    -c user.email '<email>' \
-    -c user.name '<name>' \
-    commit \
-    -m 'Malicious commit'
-
-### Git-Blame-Someone-Else
+git commit -m 'Malicious commit'
+git log
