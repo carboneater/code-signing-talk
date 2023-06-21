@@ -485,12 +485,10 @@ git config --global push.signing if-asked
 ```mermaid
 flowchart LR
 
-C([Code]) --> B[Build Artifacts] -->|Push| R[Registry] -->|Pull| P([Prod]) & T[Tests]
+N([Notaire]) -.->|Clés| B & R & P
+C([Code]) --> B[Build Artifacts] -->|Push| R[Registre] -->|Pull| P([Prod]) & T[Tests]
 T -.->|Pass| P
 E([External Libraries]) -->|Pull| B & T
-
-style C color:#4C4,stroke:#4C4
-style E color:#CC4,stroke:#CC4
 ```
 
 ---
@@ -504,13 +502,12 @@ style E color:#CC4,stroke:#CC4
 
 Sauf expressément noté, la majorité des cartoons utilisés proviennent de:
 - turnoff.us
-- neta.mk/archive
 
 ---
 
 # Questions?
 
-# Commentaires?
+# Commentaires? {class="r-fit-text"}
 
 # Insultes?
 
