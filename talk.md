@@ -213,6 +213,12 @@ gitGraph
 
 https://github.com/jayphelps/git-blame-someone-else
 
+--
+
+# La Morale
+
+Un [poste de] dev compromis...
+
 ---
 
 ### Authenticité
@@ -227,12 +233,12 @@ https://www.lr-origine.com/qui-sommes-nous/
 flowchart LR
 
 subgraph Signature
-    PK(["🔑 Privée"]) --> H
-    M([Message]) --> H[HMAC] --> D([Digest])
+    PK(["🔑 Privée"]) --> A
+    M([Message]) --> A[Algo] --> S([Signature])
 end
 
 subgraph Validation
-    D --> V{Validation} -.-> O(["✅"])
+    S --> V{Validation} -.-> O(["✅"])
     M & Pub(["🔑 Publique"]) --> V
     V -.-> N(["🚮"])
 end
@@ -279,7 +285,7 @@ gfournier:
 
 > Les serveurs protestent la mise à pied de Gab!
 >
-> - Une ancienne collègue
+> - Sara Line Boucher, Dev FOCUS
 
 --
 
@@ -399,9 +405,32 @@ git config --global commit.gpgsign true
 
 ---
 
-Demo!
+# Demo!
 
-(Content?)
+### Keygen
+
+---
+
+> Signing every commit is stupid.  
+> Only sign golden commits
+>
+> Linus Torvals ~2010 (reconstitué)
+
+--
+
+# [SHA1ttered](shattered.io)
+
+--
+
+# Automatismes {class="r-fit-text"}
+
+---
+
+| Signing                       | Sign Off        |
+|-------------------------------|-----------------|
+| --S [key]                     | -s              |
+| --gpg-sign [key]              | --signoff       |
+| -----BEGIN PGP SIGNATURE-----<br/>...<br/>-----END PGP SIGNATURE----- | `Signed-off-by` |
 
 ---
 
@@ -409,16 +438,6 @@ Demo!
 
 Merci [MrIcon](https://people.kernel.org/monsieuricon/signed-git-pushes)
 
---
-
-> Signing every commit is stupid.
-> Only sign golden commits
->
-> Linus Torvals ~2010 (reconstructed)
-
---
-
-# [SHA1ttered](shattered.io)
 
 --
 
