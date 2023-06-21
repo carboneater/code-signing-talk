@@ -25,8 +25,6 @@ theme: night
 - Supply-Chain Attacks
     - Intégrité
 - Code-based Supply Chain Attacks
-    - Authenticité
-    - Non-Repudiation
 
 ---
 
@@ -49,9 +47,7 @@ theme: night
 
 ![ubuntu](https://turnoff.us/image/en/super-power-extra.png)
 
---
-
-### Sécurité: YMMW
+---
 
 ![Shutdown](https://turnoff.us/image/en/security-expert.png)
 
@@ -143,11 +139,11 @@ Le hachage permet de garantir:
 
 Aucune garantie **à l'origine**:
 - Intégrité de la source d'information
-    - ex: Attaque sur le registre
+    - ex: Version Malicieuse (ex: faker@6.6.6)
 - Validité de la source d'information
     - Interception/Substitution (ex: MitM)
 
----
+--
 
 ### Collisions (MD5 & SHA1)
 
@@ -165,87 +161,23 @@ style E color:#C44,stroke:#C44
 ```mermaid
 flowchart LR
 
-C([Code]) --> B[Build Artifacts] -->|Push| R[Registry] -->|Pull| P([Prod]) & T[Tests]
+C([Code]) --> B[Build Artifacts] -->|Push| R[Registre] -->|Pull| P([Prod]) & T[Tests]
 T -.->|Pass| P
 ```
 
----
+--
+
+# Non-Répudiation
+
+![Signature Justin](imgs/Signature_Justin_Trudeau.svg)
+
+source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
+
+--
 
 Non couvert: Menaces internes
 
 ![tech Layoffs](imgs/layoffs.jpg)
-
----
-
-`/salt/states/users/gfournier.sls`
-```diff
-gfournier:
-+ user.absent:
-- user.present:
--   uid: 4005
--   groups:
--     - wheel
-
-```
-
---
-
-> Les serveurs protestent la mise à pied de Gab!
->
-> - Une ancienne collègue
-
---
-
-```mermaid
-sequenceDiagram
-
-participant D as DockerD
-participant S as Sentry
-participant L as Service λ
-
-note over D: Did Not Start
-D --> S: Did Not Start
-L --> S: Waiting...
-
-Note over D: Tweak Config
-D -->> D: Starts
-D -->> S: Start
-S -->> L: Response
-Note over L: Start
-```
-
---
-
-### Root Cause
-
-```diff
-{
-+  "data-root": "/mnt/docker"
--  "graph": "/mnt/docker"
-}
-```
-
---
-
-### Améliorations Possibles
-
-| Service       | Instrumenté | Alerte |
-|---------------|-------------|--------|
-| Services      |      ✅     |   ✅   |
-| Sentry        |      🔌     |   🔌   |
-| Docker Daemon |      ✅     |   🔌   |
-
---
-
-<!-- .slide: data-visibility="hidden" -->
-[Neta Downtime](imgs/Neta_158_en.png)
-source: https://neta.mk/archive
-
----
-
-# Demo
-
-### Impersonation
 
 ---
 
@@ -266,6 +198,20 @@ gitGraph
     checkout fork
     merge main
 ```
+
+--
+
+# Demo
+
+### Impersonation
+
+--
+
+# Demo
+
+### Rewrite
+
+https://github.com/jayphelps/git-blame-someone-else
 
 ---
 
@@ -292,26 +238,91 @@ subgraph Validation
 end
 ```
 
----
+--
 
 ### En Code
 
 ```typescript 
-import { createHmac } from 'crypto'
-createHmac('sha256', 'Super Secret Key')
-    .update('Lorem Ipsum')
-    .digest()
-    .toString('base64')
-// 'f+Woz3ZWtok1VZqH3EjX0nPgWbBRYYyzz39zUJR8Zoc='
+import { generateKeyPairSync, createSign, createVerify } from 'crypto'
+const { privateKey, publicKey } = generateKeyPairSync('ec', {
+  namedCurve: 'sect239k1',
+});
+
+const sign = createSign('SHA256');
+sign.write('some data to sign');
+sign.end();
+const signature = sign.sign(privateKey, 'hex');
+
+const verify = createVerify('SHA256');
+verify.write('some data to sign');
+verify.end();
+console.log(verify.verify(publicKey, signature, 'hex'));
+// Prints: true
 ```
+
+Source: https://nodejs.org/dist/latest-v18.x/docs/api/crypto.html#class-sign
 
 ---
 
-# Non-Répudiation
+`/salt/states/users/gfournier.sls`
+```diff
+gfournier:
++ user.absent:
+- user.present:
+-   uid: 4005
+-   groups:
+-     - wheel
 
-![Signature Justin](imgs/Signature_Justin_Trudeau.svg)
+```
 
-source: https://commons.wikimedia.org/wiki/File:Signature_Justin_Trudeau.svg
+--
+
+> Les serveurs protestent la mise à pied de Gab!
+>
+> - Une ancienne collègue
+
+--
+
+<!-- .slide: data-visibility="hidden" -->
+```mermaid
+sequenceDiagram
+
+participant D as DockerD
+participant S as Sentry
+participant L as Service λ
+
+note over D: Did Not Start
+D --> S: Did Not Start
+L --> S: Waiting...
+
+Note over D: Tweak Config
+D -->> D: Starts
+D -->> S: Start
+S -->> L: Response
+Note over L: Start
+```
+
+--
+
+### Root Cause
+
+`/etc/docker/daemon.json`
+```diff
+{
++  "data-root": "/mnt/docker"
+-  "graph": "/mnt/docker"
+}
+```
+
+--
+
+### Améliorations Possibles
+
+| Service       | Instrumenté | Alerte |
+|---------------|-------------|--------|
+| Services      |      ✅     |   ✅   |
+| Sentry        |      🔌     |   🔌   |
+| Docker Daemon |      ✅     |   🔌   |
 
 ---
 
@@ -390,14 +401,7 @@ git config --global commit.gpgsign true
 
 Demo!
 
---
-
-> sudo docker run -it --rm debian bash
-
-```
-apt install gpg
-
-```
+(Content?)
 
 ---
 
@@ -472,12 +476,8 @@ style E color:#CC4,stroke:#CC4
 
 ---
 
-> "Dance like nobody is watching.  
-> Encrypt like everyone is."  
-> 
-> Neil R. Wiler (@grifter801)  
-> Bart Stump (@theStump3r)  
-> Black Hat 2015
+> доверяй, но проверяй  
+> (Trust, but verify)
 
 ---
 
